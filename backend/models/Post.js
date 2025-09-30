@@ -8,7 +8,15 @@ const postSchema = new mongoose.Schema({
         ref: 'User'   // link to User collection
     },
     date: { type: Date, default: Date.now },
-    type: { type: String, enum: ['notification', 'discussion'], default: 'discussion' }
+    type: { type: String, enum: ['notification', 'discussion'], default: 'discussion' },
+    upvotes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    replies: [
+            {
+            content: String,
+            author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+            date: { type: Date, default: Date.now }
+            }
+    ]
 });
 
-module.exports = mongoose.model('Post', postSchema);
+module.exports = mongoose.models.post || mongoose.model('Post', postSchema);

@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const User = require('../models/User');
+const auth = require('../middleware/auth');
 
 // Register
 router.post('/register', async (req, res) => {
@@ -51,6 +52,35 @@ router.post('/login', async (req, res) => {
     } catch (err) {
         res.status(500).json({ msg: 'Server error' });
     }
+});
+
+// Get all students (faculty only)
+router.get('/students', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'faculty') {
+      return res.status(403).json({ msg: 'Only faculty can view students' });
+    }
+
+    const students = await User.find({ role: 'student' }).select('-password');
+    res.json(students);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Server error' });
+  }
+});
+
+router.get('/faculty', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'student' && req.user.role !== 'admin') {
+      return res.status(403).json({ msg: 'Access denied' });
+    }
+
+    const faculty = await User.find({ role: 'faculty' }).select('_id name regNo');
+    res.json(faculty);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Server error' });
+  }
 });
 
 

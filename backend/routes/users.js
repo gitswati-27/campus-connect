@@ -1,4 +1,5 @@
-const User = require('../models/user');
+const User = require('../models/User');
+const auth = require('../middleware/auth');
 
 // Get all faculty users
 router.get('/faculty', auth, async (req, res) => {

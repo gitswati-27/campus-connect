@@ -36,12 +36,41 @@
     }
     .post small {
       color: #777;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .upvote {
+      background: #eee;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .reply-form {
+      margin-top: 10px;
+    }
+    .reply-form input {
+      width: calc(100% - 90px);
+      display: inline-block;
+    }
+    .reply-form button {
+      width: 80px;
+      display: inline-block;
+    }
+    .replies {
+      margin-top: 10px;
+      padding-left: 10px;
+      border-left: 2px solid #ddd;
+    }
+    .replies p {
+      margin: 5px 0;
     }
   </style>
 </head>
 <body>
 
-  <h2>📢 Campus Wall</h2>
+  <h2 style="text-align: center">Campus Wall</h2>
 
   <!-- Post Form -->
   <form id="postForm">

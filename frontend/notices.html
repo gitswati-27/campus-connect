@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Notices</title>
+  <link rel="icon" href="assets/images/icon.png">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+    h2 { color: #333; }
+    form {
+      margin-bottom: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+    form input, form textarea, form button {
+      display: block;
+      margin: 10px 0;
+      padding: 8px;
+      width: 100%;
+    }
+    .notice {
+      background: #fff8e1;
+      border-left: 5px solid #ffa000;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .notice h3 {
+      margin: 0 0 5px;
+      color: #d35400;
+    }
+    .notice small {
+      color: #777;
+      display: block;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📌 Official Notices</h2>
+
+  <!-- Faculty ko dikhega -->
+  <form id="noticeForm" style="display:none;">
+        <input type="text" id="title" placeholder="Notice Title" required>
+        <textarea id="content" placeholder="Write the notice..." required></textarea>
+        
+        <select id="category">
+            <option value="general">📢 General</option>
+            <option value="urgent">🔴 Urgent</option>
+            <option value="event">🎉 Event</option>
+            <option value="placement">💼 Placement</option>
+        </select>
+
+        <button type="submit">Post Notice</button>
+    </form>
+
+
+  <h3>All Notices</h3>
+  <div id="notices"></div>
+
+  <script src="assets/js/notices.js"></script>
+</body>
+</html>

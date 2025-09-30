@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
-const doubtSchema = new mongoose.Schema({
-  question: { type: String, required: true },
-  student: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // who asked
-  answer: { type: String, default: null },
-  faculty: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // who answered
-  assignedFaculty: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  createdAt: { type: Date, default: Date.now }
+const DoubtSchema = new mongoose.Schema({
+  student: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  faculty: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  reply: { type: String },
+  status: { type: String, enum: ['Pending', 'Resolved'], default: 'Pending' },
+  date: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Doubt', doubtSchema);
+module.exports = mongoose.model('Doubt', DoubtSchema);

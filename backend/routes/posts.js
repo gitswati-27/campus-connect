@@ -37,4 +37,48 @@ router.post('/', auth, async (req, res) => {
     }
 });
 
+// Upvote a post (anonymous)
+// Upvote a post (only once per user)
+router.post('/:id/upvote', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ msg: 'Post not found' });
+
+    // Check if user already upvoted
+    if (post.upvotes.includes(req.user.id)) {
+      return res.status(400).json({ msg: 'You already upvoted this post' });
+    }
+
+    post.upvotes.push(req.user.id);
+    await post.save();
+    await post.populate('author', 'name role regNo');
+
+    res.json(post);
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error' });
+  }
+});
+
+
+// Reply to a post (requires login)
+router.post('/:id/reply', auth, async (req, res) => {
+  try {
+    const { content } = req.body;
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ msg: 'Post not found' });
+
+    post.replies.push({
+      content,
+      author: req.user.id
+    });
+
+    await post.save();
+    await post.populate('replies.author', 'name role regNo');
+    res.json(post);
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error' });
+  }
+});
+
+
 module.exports = router;

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Faculty - Mark Attendance</title>
+  <link rel="icon" href="assets/images/icon.png">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+    h2 { color: #333; }
+    form, .attendance-box {
+      margin-bottom: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin: 8px 0 4px;
+    }
+    select, input, button {
+      margin-bottom: 10px;
+      padding: 8px;
+      width: 100%;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th { background: #f0f0f0; }
+    button.submit {
+      background: #27ae60;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button.submit:hover { background: #1e8449; }
+  </style>
+</head>
+<body>
+
+  <h2>📋 Mark Attendance</h2>
+
+  <form id="attendanceForm">
+    <label for="date">Date</label>
+    <input type="date" id="date" required>
+
+    <label for="subject">Subject</label>
+    <select id="subject" required>
+      <option value="">-- Select Subject --</option>
+      <option value="DWDM">DWDM</option>
+      <option value="CD">CD</option>
+      <option value="DAA">DAA</option>
+      <option value="OOAD">OOAD</option>
+      <option value="AOR">AOR</option>
+      <option value="DM LAB">DM LAB</option>
+      <option value="ADS LAB">ADS LAB</option>
+      <option value="FSD-II LAB">FSD-II LAB</option>
+      <option value="AADF">AADF</option>
+    </select>
+
+    <label for="periods">Number of Periods</label>
+    <input type="number" id="periods" value="1" min="1" max="3" required>
+
+    <button type="submit">Load Students</button>
+  </form>
+
+  <div id="attendanceSection" class="attendance-box" style="display:none;">
+    <h3>Mark Attendance</h3>
+    <form id="markAttendanceForm">
+      <table>
+        <thead>
+          <tr>
+            <th>Reg No</th>
+            <th>Name</th>
+            <th>Absent?</th>
+          </tr>
+        </thead>
+        <tbody id="studentsTable"></tbody>
+      </table>
+      <button type="submit" class="submit">Post Attendance</button>
+    </form>
+  </div>
+
+  <script src="assets/js/facultyAttendance.js"></script>
+</body>
+</html>

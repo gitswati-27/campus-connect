@@ -10,6 +10,8 @@ const authRoutes = require('./routes/auth');
 const postRoutes = require('./routes/posts');
 const doubtRoutes = require('./routes/doubts');
 const adminRoutes = require('./routes/admin');
+const noticeRoutes = require('./routes/notices');
+const attendanceRoutes = require('./routes/attendance');
 
 // Middleware
 app.use(cors());
@@ -20,6 +22,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/doubts', doubtRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/notices', noticeRoutes);
+app.use('/api/attendance', attendanceRoutes);
 
 // Serve frontend static files
 app.use(express.static(path.join(__dirname, '../frontend')));
