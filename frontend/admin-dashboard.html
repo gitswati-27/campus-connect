@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6f8; padding: 20px; }
+    .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; }
+    h2 { margin-bottom: 20px; }
+    input, select, button {
+      width: 100%; margin: 10px 0; padding: 10px;
+    }
+    .user-list { margin-top: 20px; }
+    .user { padding: 10px; border-bottom: 1px solid #ddd; }
+    .logout { background: #e63946; color: white; border: none; border-radius: 6px; cursor: pointer; padding: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Admin Dashboard</h2>
+
+    <form id="addUserForm">
+      <input type="text" id="name" placeholder="Full Name" required>
+      <input type="text" id="regNo" placeholder="Registration Number" required>
+      <select id="role" required>
+        <option value="">-- Select Role --</option>
+        <option value="student">Student</option>
+        <option value="faculty">Faculty</option>
+      </select>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">Add User</button>
+    </form>
+
+    <h3>All Users</h3>
+    <div id="users" class="user-list"></div>
+
+    <button id="logoutBtn" class="logout">Logout</button>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (!user || user.role !== 'admin') {
+      window.location.href = "login.html";
+    }
+
+    // Add User
+    document.getElementById('addUserForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const regNo = document.getElementById('regNo').value;
+      const role = document.getElementById('role').value;
+      const password = document.getElementById('password').value;
+
+      const res = await fetch('http://localhost:3000/api/admin/addUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ name, regNo, role, password })
+      });
+
+      if (res.ok) {
+        alert("User added successfully!");
+        document.getElementById('addUserForm').reset();
+        loadUsers();
+      } else {
+        const data = await res.json();
+        alert(data.msg || "Error adding user");
+      }
+    });
+
+    // Load all users
+    async function loadUsers() {
+      const res = await fetch('http://localhost:3000/api/admin/users', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const users = await res.json();
+
+      const container = document.getElementById('users');
+      container.innerHTML = '';
+
+      users.forEach(u => {
+        const div = document.createElement('div');
+        div.classList.add('user');
+        div.textContent = `${u.name} (${u.role}) - ${u.regNo}`;
+        container.appendChild(div);
+      });
+    }
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.clear();
+      window.location.href = "login.html";
+    });
+
+    loadUsers();
+  </script>
+</body>
+</html>

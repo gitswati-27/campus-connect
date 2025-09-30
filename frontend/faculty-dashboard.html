@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VIIT - Faculty Portal </title>
+  <link rel="icon" href="assets/images/icon.png">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6f8; padding: 20px; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .card:hover { transform: translateY(-5px); }
+  </style>
+</head>
+<body>
+  <h2>Welcome, Faculty</h2>
+  <div class="cards">
+    <div class="card" onclick="window.location.href='faculty-doubts.html'">❓ Solve Doubts</div>
+    <div class="card">📊 Upload Results</div>
+    <div class="card">📅 Attendance Reports</div>
+  </div>
+  <script>
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+        window.location.href = "login.html";
+    } else {
+        if (user.role !== 'faculty') {
+            window.location.href = "dashboard.html"; //so sneaky students are not allowed
+        }
+    }
+
+  </script>
+</body>
+</html>

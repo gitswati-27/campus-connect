@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Campus Wall</title>
+  <link rel="icon" href="assets/images/icon.png">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+    h2 { color: #333; }
+    form {
+      margin-bottom: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+    form input, form textarea, form select, form button {
+      display: block;
+      margin: 10px 0;
+      padding: 8px;
+      width: 100%;
+    }
+    .post {
+      background: white;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .post h3 {
+      margin: 0 0 5px;
+    }
+    .post small {
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📢 Campus Wall</h2>
+
+  <!-- Post Form -->
+  <form id="postForm">
+    <input type="text" id="title" placeholder="Post Title" required>
+    <textarea id="content" placeholder="Write your post..." required></textarea>
+    <select id="type">
+      <option value="notification">Notification</option>
+      <option value="discussion">Discussion</option>
+    </select>
+    <button type="submit">Post</button>
+  </form>
+
+  <h3>All Posts</h3>
+  <div id="posts"></div>
+
+  <script src="assets/js/campuswall.js"></script>
+</body>
+</html>
