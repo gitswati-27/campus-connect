@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const Attendance = require('../models/attendance');
-const User = require('../models/User');
+const User = require('../models/user');
 
 // Faculty marks attendance
 router.post('/', auth, async (req, res) => {

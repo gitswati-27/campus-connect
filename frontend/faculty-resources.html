@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Resources</title>
+  <link rel="icon" href="assets/images/icon.png">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6f8; padding: 20px; }
+    h2 { color: #333; }
+    form {
+      background: white; padding: 20px; border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1); max-width: 500px;
+    }
+    input, select, textarea, button {
+      width: 100%; margin: 10px 0; padding: 8px;
+    }
+    button {
+      background: #007BFF; color: white; border: none; cursor: pointer;
+      border-radius: 5px; font-size: 16px;
+    }
+    button:hover { background: #0056b3; }
+  </style>
+</head>
+<body>
+  <h2>📚 Upload Resource</h2>
+
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="text" id="title" name="title" placeholder="Title" required>
+    <textarea id="description" name="description" placeholder="Description (optional)"></textarea>
+    <input type="text" id="subject" name="subject" placeholder="Subject" required>
+    
+    <label>Year:</label>
+    <select id="year" name="year" required>
+      <option value="1">1st Year</option>
+      <option value="2">2nd Year</option>
+      <option value="3">3rd Year</option>
+      <option value="4">4th Year</option>
+    </select>
+
+    <label>Branch:</label>
+    <input type="text" id="branch" name="branch" placeholder="Branch (e.g. CSE)" required>
+
+    <label>Section:</label>
+    <input type="text" id="section" name="section" placeholder="Section (e.g. A)" required>
+
+    <label>File:</label>
+    <input type="file" id="file" name="file" required>
+
+    <button type="submit">Upload</button>
+  </form>
+  <h3>Uploaded Resources</h3>
+  <div id="myResources"></div>
+
+  <script src="assets/js/faculty-resources.js"></script>
+</body>
+</html>

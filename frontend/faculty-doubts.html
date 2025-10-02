@@ -2,74 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Faculty Doubts</title>
+  <title>Assigned Doubts</title>
+  <link rel="icon" href="assets/images/icon.png">
   <style>
-    body { font-family: Arial, sans-serif; background: #f4f6f8; padding: 20px; }
-    .doubt { background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
-    textarea { width: 100%; margin-top: 8px; }
-    button { margin-top: 8px; padding: 6px 10px; cursor: pointer; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+    h2 { color: #333; }
+    .doubt {
+      background: white;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .doubt small { color: #777; }
+    textarea {
+      width: 100%;
+      margin-top: 10px;
+      padding: 8px;
+    }
+    button {
+      background: #27ae60;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      margin-top: 8px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover { background: #1e8449; }
+    .resolved { color: green; font-weight: bold; }
+    .pending { color: orange; font-weight: bold; }
   </style>
 </head>
 <body>
-  <h2>Student Doubts</h2>
-  <div id="doubts"></div>
-  <script>
-    const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user'));
 
-    if (!user || user.role !== 'faculty') {
-      window.location.href = 'login.html';
-    }
+  <h2>📘 Assigned Doubts</h2>
+  <div id="doubtsList"></div>
 
-    async function loadDoubts() {
-      const res = await fetch('http://localhost:3000/api/doubts', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const doubts = await res.json();
-
-      const container = document.getElementById('doubts');
-      container.innerHTML = '';
-
-      doubts.forEach(d => {
-        const div = document.createElement('div');
-        div.classList.add('doubt');
-        div.innerHTML = `
-          <p><strong>Q:</strong> ${d.question} <br>
-          <em>By ${d.student?.name || 'Unknown'} (${d.student?.regNo})</em></p>
-          <p><strong>Answer:</strong> ${d.answer || '<em>Not answered yet</em>'}</p>
-          ${!d.answer ? `
-            <textarea id="answer-${d._id}" placeholder="Type your answer..."></textarea>
-            <button onclick="submitAnswer('${d._id}')">Submit Answer</button>
-          ` : ''}
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    async function submitAnswer(id) {
-      const answer = document.getElementById(`answer-${id}`).value;
-      if (!answer.trim()) return alert("Answer cannot be empty!");
-
-      const res = await fetch(`http://localhost:3000/api/doubts/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ answer })
-      });
-
-      if (res.ok) {
-        loadDoubts(); // refresh
-      }
-    }
-
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      localStorage.clear();
-      window.location.href = 'login.html';
-    });
-
-    loadDoubts();
-  </script>
+  <script src="assets/js/facultyDoubts.js"></script>
 </body>
 </html>

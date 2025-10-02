@@ -9,11 +9,6 @@ mongoose.connect(process.env.MONGO_URI, {
 }).then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
-const users = [
-    //{ name: 'Swati', regNo: 'CS2025001', password: '123456', role: 'student' },
-    //{ name: 'Prof. Raj', regNo: 'FAC1001', password: 'abcdef', role: 'faculty' }
-    {name:'System Admin', regNo: '001', password: 'admin123', role: 'admin'}
-];
 
 
 async function seed() {

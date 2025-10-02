@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const Doubt = require('../models/doubt');
-const User = require('../models/User');
+const User = require('../models/user');
 
 // Student posts a doubt
 router.post('/', auth, async (req, res) => {

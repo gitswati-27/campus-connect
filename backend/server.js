@@ -12,6 +12,8 @@ const doubtRoutes = require('./routes/doubts');
 const adminRoutes = require('./routes/admin');
 const noticeRoutes = require('./routes/notices');
 const attendanceRoutes = require('./routes/attendance');
+const resourceRoutes = require('./routes/resources');
+const resultRoutes = require('./routes/results');
 
 // Middleware
 app.use(cors());
@@ -24,9 +26,13 @@ app.use('/api/doubts', doubtRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/notices', noticeRoutes);
 app.use('/api/attendance', attendanceRoutes);
+app.use('/api/resources', resourceRoutes);
+app.use('/api/results', resultRoutes);
 
 // Serve frontend static files
 app.use(express.static(path.join(__dirname, '../frontend')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)

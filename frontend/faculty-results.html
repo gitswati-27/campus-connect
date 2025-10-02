@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Results</title>
+  <link rel="icon" href="assets/images/icon.png">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6f8; padding: 20px; }
+    h2 { color: #333; }
+    form {
+      background: white; padding: 20px; border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1); max-width: 500px;
+    }
+    select, input, button {
+      width: 100%; margin: 10px 0; padding: 8px;
+    }
+    button {
+      background: #007BFF; color: white; border: none; cursor: pointer;
+      border-radius: 5px; font-size: 16px;
+    }
+    button:hover { background: #0056b3; }
+    .result-list {
+      margin-top: 30px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+    .result-item {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+    .result-item:last-child { border-bottom: none; }
+  </style>
+</head>
+<body>
+  <h2>📤 Upload Results</h2>
+
+  <form id="resultUploadForm" enctype="multipart/form-data">
+    <label for="examType">Exam Type:</label>
+    <select id="examType" name="examType" required>
+      <option value="mid1">Mid-1</option>
+      <option value="mid2">Mid-2</option>
+      <option value="endsem">End Semester</option>
+    </select>
+
+    <label for="file">Upload CSV/Excel File:</label>
+    <input type="file" id="file" name="file" accept=".csv,.xlsx,.xls" required>
+
+    <button type="submit">Upload Results</button>
+  </form>
+
+  <div class="result-list">
+    <h3>📂 Previous Uploads</h3>
+    <div id="previousUploads"></div>
+  </div>
+
+  <script src="assets/js/faculty-results.js"></script>
+</body>
+</html>
