@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Faculty - Assignments</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f6f8; }
+    h2 { color: #333; }
+    form, .assignment {
+      background: white; padding: 15px; margin-bottom: 20px;
+      border-radius: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+    input, textarea, select, button {
+      display: block; margin: 10px 0; padding: 8px; width: 100%;
+    }
+    .submissions { margin-top: 10px; background: #f9f9f9; padding: 10px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h2>📘 Create Assignment</h2>
+  <form id="createAssignmentForm">
+    <input type="text" id="title" placeholder="Assignment Title" required>
+    <textarea id="description" placeholder="Description"></textarea>
+    <input type="text" id="subject" placeholder="Subject" required>
+    <input type="number" id="maxMarks" placeholder="Max Marks" required>
+    <input type="date" id="dueDate" required>
+    <select id="year"><option value="1">1st Year</option><option value="2">2nd Year</option><option value="3">3rd Year</option><option value="4">4th Year</option></select>
+    <input type="text" id="branch" placeholder="Branch (e.g., CSE)">
+    <input type="text" id="section" placeholder="Section (e.g., A)">
+    <button type="submit">Create</button>
+  </form>
+
+  <h2>Assignments given</h2>
+  <div id="assignments"></div>
+
+  <script src="assets/js/faculty-assignments.js"></script>
+</body>
+</html>

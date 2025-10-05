@@ -112,7 +112,7 @@
 
     #logoutBtn{
       position: absolute; 
-      top: 20px; 
+      top: 50px; 
       right: 20px; 
       padding: 8px 14px; 
       background: #e63946; 
@@ -134,7 +134,7 @@
 </head>
 <body>
   <div class="header">
-    <div class="profile-icon">AS</div>
+    <div class="profile-icon">😎</div>
     <div class="header-text">
       <h1>Welcome back, Aarav Sharma</h1>
       <p>Roll No: CS202301</p>
@@ -146,6 +146,12 @@
     Campus Connect
     <small>Your gateway to campus life</small>
   </div>
+    <div style="position: absolute; top: 10px; right: 20px;">
+      <button id="notifBtn">🔔 Notifications</button>
+      <div id="notifList" style="display:none; background:white; border:1px solid #ddd; padding:10px; border-radius:6px; max-height:200px; overflow-y:auto;">
+    </div>
+  </div>
+
   <div class="card-container">
     <div class="card">
       <div class="icon blue">👤</div>
@@ -175,13 +181,19 @@
       <div class="icon teal">📝</div>
       <h3>Assignments</h3>
       <p>Submit and check status</p>
-      <a href="#">View Assignments</a>
+      <a href="student-assignments.html">View Assignments</a>
     </div>
     <div class="card">
       <div class="icon gray">📚</div>
       <h3>Library</h3>
       <p>Access study resources</p>
-      <a href="#">Open Library</a>
+      <a href="library.html">Open Library</a>
+    </div>
+    <div class="card">
+      <div class="icon gray">📚</div>
+      <h3>Study Groups</h3>
+      <p>Collective learning</p>
+      <a href="study-groups.html">Study Together!</a>
     </div>
     <div class="card">
       <div class="icon gray">❓</div>
@@ -203,24 +215,106 @@
     </div>
   </div>
   <script>
-  // Redirect to login if not logged in
-  if (!localStorage.getItem('token')) {
-      window.location.href = "login.html";
+  // Helper to get token
+  function getToken() {
+    return localStorage.getItem('token');
   }
 
-  // (Optional) Load user info from localStorage
+  // Redirect to login if not logged in
+  if (!getToken()) {
+    window.location.href = "login.html";
+  }
+
+  // Load notifications
+  async function loadNotifications() {
+  try {
+    const res = await fetch('http://localhost:3000/api/notifications/my', {
+      headers: { 'Authorization': `Bearer ${getToken()}` }
+    });
+
+    if (!res.ok) return;
+
+    const notifs = await res.json();
+    const list = document.getElementById('notifList');
+    list.innerHTML = '';
+
+    if (notifs.length === 0) {
+      list.innerHTML = '<p>No notifications yet.</p>';
+      return;
+    }
+
+    notifs.forEach(n => {
+      const el = document.createElement('div');
+      el.style.marginBottom = "8px";
+      el.style.padding = "5px";
+      el.style.background = n.seen ? "#f4f4f4" : "#e6f0ff";
+      el.style.borderRadius = "4px";
+
+      // Check if it's an assignment notification
+      if (n.title.includes("Assignment")) {
+        el.innerHTML = `
+          <strong>📘 ${n.title}</strong><br>
+          <small>${n.message}</small><br>
+          ${n.link ? `<a href="${n.link}">Go to Assignments</a>` : ""}
+        `;
+      } else {
+        el.innerHTML = `
+          <strong>${n.title}</strong><br>
+          <small>${n.message}</small><br>
+          ${n.link ? `<a href="${n.link}">View</a>` : ""}
+        `;
+      }
+
+      list.appendChild(el);
+    });
+  } catch (err) {
+    console.error("Error loading notifications:", err);
+  }
+}
+
+  // Load user info into header
   const user = JSON.parse(localStorage.getItem('user'));
   if (user) {
-      document.addEventListener('DOMContentLoaded', () => {
-          document.querySelector('.header-text h1').innerText = `Welcome back, ${user.name}`;
-          document.querySelector('.header-text p').innerText = `Reg No: ${user.regNo}`;
-      });
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('.header-text h1').innerText = `Welcome back, ${user.name}`;
+      document.querySelector('.header-text p').innerText = `Reg No: ${user.regNo}`;
+    });
   }
+
+  // Logout button
   document.getElementById('logoutBtn').addEventListener('click', () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    window.location.href = 'login.html'; // redirect to login
+    window.location.href = 'login.html';
   });
+
+  // Toggle dropdown + load notifications
+document.getElementById('notifBtn').addEventListener('click', async () => {
+  const list = document.getElementById('notifList');
+  if (list.style.display === 'none' || list.style.display === '') {
+    list.style.display = 'block';
+    
+    // Mark all as read
+    try {
+      await fetch('http://localhost:3000/api/notifications/mark-read', {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${getToken()}` }
+      });
+    } catch (err) {
+      console.error("Error marking notifications as read:", err);
+    }
+
+    // Reload notifications (will reset unread count)
+    loadNotifications();
+  } else {
+    list.style.display = 'none';
+  }
+});
+
+  // Load notifications count once on page load
+  loadNotifications();
 </script>
+
+
 </body>
 </html>
